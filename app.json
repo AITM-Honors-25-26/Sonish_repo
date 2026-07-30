@@ -6,6 +6,11 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "sonishrepo",
+    "splash":{
+      "image": "./assets/splash.png",
+      "resizeMode": "contain", 
+      "backgroundColor": "#ffffff"
+    },
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -22,6 +27,7 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
+      "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
