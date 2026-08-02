@@ -1,50 +1,115 @@
-# Welcome to your Expo app 👋
+# Vault — MongoDB Authentication Starter
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A full-stack authentication project: Express + MongoDB (Mongoose) + Joi on the backend,
+React (Vite) on the frontend, JWT stored in `localStorage`.
 
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+project/
+├── backend/     Express API (controller → service → validator → route pattern)
+└── frontend/    React (Vite) client
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Backend
 
-## Learn more
+**Structure**
+```
+backend/
+├── .env                      # your local config (already filled with dev defaults)
+├── .env.example               # template for others / production
+└── src/
+    ├── config/db.js           # MongoDB connection
+    ├── models/user.model.js   # Mongoose schema, password hashing
+    ├── validators/auth.validator.js  # Joi schemas
+    ├── middleware/
+    │   ├── validate.middleware.js    # runs Joi schema against req.body
+    │   ├── auth.middleware.js        # verifies JWT, protects routes
+    │   └── error.middleware.js       # centralized error handling
+    ├── services/auth.service.js      # business logic + DB calls
+    ├── controllers/auth.controller.js # req/res glue, calls the service
+    ├── routes/auth.routes.js         # wires validator + controller together
+    ├── app.js                        # Express app (middleware, routes)
+    └── server.js                     # entry point, connects DB, starts server
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+**Setup**
+```bash
+cd backend
+npm install
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Edit `.env` if needed (defaults to a local MongoDB on `mongodb://127.0.0.1:27017/auth_db`).
+If you use MongoDB Atlas, paste your connection string into `MONGO_URI`.
 
-## Join the community
+**Run**
+```bash
+npm run dev     # with nodemon, auto-restarts
+# or
+npm start
+```
 
-Join our community of developers creating universal apps.
+Server runs on `http://localhost:5000`.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+**Endpoints**
+
+| Method | Route              | Body                              | Auth required |
+|--------|---------------------|------------------------------------|---------------|
+| POST   | `/api/auth/register` | `{ name, email, password }`       | No            |
+| POST   | `/api/auth/login`    | `{ email, password }`             | No            |
+| GET    | `/api/auth/me`       | —                                  | Yes (Bearer token) |
+| GET    | `/api/health`        | —                                  | No            |
+
+Password rule (enforced by Joi): at least 8 characters, containing at least one letter and one number.
+
+Every response follows the shape `{ success, message?, data?, errors? }`.
+
+## Frontend
+
+**Structure**
+```
+frontend/
+├── .env                        # VITE_API_URL points at the backend
+└── src/
+    ├── api/auth.js              # axios instance + register/login/me calls
+    ├── context/AuthContext.jsx  # holds user + token, exposes login/register/logout
+    ├── components/
+    │   ├── ProtectedRoute.jsx   # redirects to /login if not authenticated
+    │   └── VaultDial.jsx        # decorative dial visual
+    ├── pages/
+    │   ├── Login.jsx
+    │   ├── Register.jsx
+    │   └── Dashboard.jsx        # protected page shown after login
+    └── styles/                  # global.css, auth.css, dashboard.css
+```
+
+**Setup**
+```bash
+cd frontend
+npm install
+```
+
+**Run**
+```bash
+npm run dev
+```
+
+App runs on `http://localhost:5173` and talks to the backend at the URL set in `frontend/.env`.
+
+## How auth works
+
+1. **Register** — client posts `{ name, email, password }`. Joi validates the shape on the
+   server, the password is hashed with bcrypt before saving, and a JWT is returned.
+2. **Login** — client posts `{ email, password }`. Server compares the hashed password and
+   returns a JWT on success.
+3. The frontend stores the JWT in `localStorage` and attaches it as
+   `Authorization: Bearer <token>` on every subsequent request via an axios interceptor.
+4. **Protected routes** (`GET /api/auth/me`) run through `auth.middleware.js`, which verifies
+   the JWT and attaches `req.userId`.
+5. **Logout** simply clears the token from `localStorage` — since this is a stateless JWT
+   setup, there's nothing to invalidate server-side.
+
+## Next steps you may want
+
+- Add refresh tokens if you need silver-bullet long sessions without re-login.
+- Add email verification / password reset flows (same controller → service → validator pattern).
+- Swap `localStorage` for an httpOnly cookie if you want protection against XSS token theft.
+- Add a `role` field to the user model plus role-based middleware if you need authorization tiers.

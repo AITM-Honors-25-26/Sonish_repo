@@ -1,0 +1,259 @@
+.auth-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  background: linear-gradient(135deg, #08131d 0%, #0f1d2f 52%, #111a27 100%);
+  color: #edf5ff;
+}
+
+.auth-brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 48px;
+  background: radial-gradient(circle at 30% 20%, rgba(124, 177, 255, 0.2), rgba(8, 19, 29, 0.92) 55%);
+  border-right: 1px solid rgba(146, 176, 212, 0.16);
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.brand-mark .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #7fe9d1;
+  box-shadow: 0 0 14px rgba(127, 233, 209, 0.7);
+}
+
+.vault-dial-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.vault-dial {
+  width: min(280px, 62vw);
+  height: min(280px, 62vw);
+}
+
+.dial-ring-outer,
+.dial-ring-mid {
+  fill: none;
+  stroke: rgba(146, 176, 212, 0.25);
+  stroke-width: 1;
+}
+
+.dial-ring-inner {
+  fill: rgba(15, 24, 35, 0.9);
+  stroke: rgba(126, 204, 255, 0.92);
+  stroke-width: 1.5;
+}
+
+.tick {
+  stroke: rgba(146, 176, 212, 0.28);
+  stroke-width: 1.5;
+}
+
+.tick-major {
+  stroke: rgba(219, 233, 250, 0.8);
+  stroke-width: 2;
+}
+
+.dial-needle {
+  stroke: #80d5ff;
+  stroke-width: 2;
+  fill: #80d5ff;
+  transform-origin: 160px 160px;
+  animation: dial-sweep 12s ease-in-out infinite;
+}
+
+@keyframes dial-sweep {
+  0% {
+    transform: rotate(-18deg);
+  }
+  50% {
+    transform: rotate(22deg);
+  }
+  100% {
+    transform: rotate(-18deg);
+  }
+}
+
+.dial-label {
+  fill: #b7c9dc;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+}
+
+.brand-copy {
+  max-width: 360px;
+}
+
+.brand-copy h1 {
+  margin: 0 0 10px;
+  font-size: clamp(2rem, 2.4vw, 2.8rem);
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.brand-copy p {
+  margin: 0;
+  color: #a9bfd7;
+  line-height: 1.65;
+}
+
+.auth-form-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.auth-card {
+  width: min(100%, 400px);
+}
+
+.auth-card-header {
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: #86dafe;
+  text-transform: uppercase;
+}
+
+.auth-card-header h2 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.auth-card-header p {
+  margin: 0;
+  color: #a8bfd8;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #b7c8dc;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.field label::before,
+.field label::after {
+  color: rgba(146, 176, 212, 0.4);
+}
+
+.field label::before {
+  content: '[ '; 
+}
+
+.field label::after {
+  content: ' ]';
+}
+
+.field input {
+  width: 100%;
+  background: rgba(11, 17, 27, 0.9);
+  border: 1px solid rgba(146, 176, 212, 0.2);
+  border-radius: 12px;
+  padding: 13px 14px;
+  color: #edf5ff;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field input:focus {
+  border-color: rgba(125, 214, 255, 0.8);
+  box-shadow: 0 0 0 3px rgba(125, 214, 255, 0.12);
+  outline: none;
+}
+
+.field-error {
+  margin-top: 7px;
+  color: #ff9b9b;
+  font-size: 0.72rem;
+}
+
+.form-banner {
+  margin-bottom: 18px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 136, 136, 0.35);
+  border-radius: 10px;
+  background: rgba(255, 110, 110, 0.08);
+  color: #ffb2b2;
+  font-size: 0.78rem;
+}
+
+.btn-primary {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #7cc8ff 0%, #6ae2d2 100%);
+  color: #07151d;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(1.04);
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.auth-switch {
+  margin-top: 24px;
+  text-align: center;
+  color: #afc4db;
+  font-size: 0.82rem;
+}
+
+.auth-switch a {
+  color: #7ee3d7;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 860px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-brand {
+    display: none;
+  }
+}

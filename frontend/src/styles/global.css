@@ -1,0 +1,73 @@
+:root {
+  /* Color tokens */
+  --ink: #12141c;
+  --panel: #1b1e29;
+  --panel-raised: #22253203;
+  --hairline: #2c3040;
+  --brass: #c9a227;
+  --brass-bright: #e6c158;
+  --fog: #9aa0ae;
+  --paper: #f5f3ee;
+  --danger: #e2574c;
+  --success: #4fa97a;
+
+  /* Type tokens */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+.screen-center {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-readout {
+  font-family: var(--font-mono);
+  letter-spacing: 0.12em;
+  color: var(--fog);
+  font-size: 0.8rem;
+}
+
+/* Focus visibility */
+:focus-visible {
+  outline: 2px solid var(--brass-bright);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
